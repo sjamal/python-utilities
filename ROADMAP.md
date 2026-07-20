@@ -10,13 +10,26 @@ _Nothing currently active._
 
 ---
 
+## Completed
+
+### File & I/O Helpers
+
+- [x] **file_utils.py** — Common file operations: safe read/write with encoding detection, atomic writes (write-then-rename), directory tree walker, and checksum verification (MD5/SHA256).
+- [x] **config_loader.py** — Load and merge configuration from YAML, JSON, or `.env` files with environment variable override support. Validates required keys on load.
+
+### System & Environment
+
+- [x] **env_validator.py** — Check that required environment variables are set and non-empty. Prints a clear failure message listing missing vars. Useful in CI/CD scripts and pipelines.
+- [x] **retry_decorator.py** — Configurable `@retry` decorator with exponential backoff and jitter. Supports whitelisting specific exceptions.
+- [x] **logger_setup.py** — Standard logging configuration: console + rotating file handler, configurable level, consistent format across all projects.
+
+---
+
 ## Planned
 
 ### File & I/O Helpers
 
-- [ ] **file_utils.py** — Common file operations: safe read/write with encoding detection, atomic writes (write-then-rename), directory tree walker, and checksum verification (MD5/SHA256).
 - [ ] **archive_utils.py** — Compress and decompress tar/gz/zip archives with progress reporting. Supports rotating archives by date suffix.
-- [ ] **config_loader.py** — Load and merge configuration from YAML, JSON, or `.env` files with environment variable override support. Validates required keys on load.
 
 ### Data Helpers
 
@@ -26,8 +39,6 @@ _Nothing currently active._
 
 ### System & Environment
 
-- [ ] **env_validator.py** — Check that required environment variables are set and non-empty. Prints a clear failure message listing missing vars. Useful in CI/CD scripts and pipelines.
-- [ ] **retry_decorator.py** — Configurable `@retry` decorator with exponential backoff and jitter. Supports whitelisting specific exceptions.
 - [ ] **timer_decorator.py** — `@timed` decorator that logs function name and elapsed time. Configurable log level and output format.
 - [ ] **process_runner.py** — Thin wrapper around `subprocess` for running shell commands from Python: captures stdout/stderr, raises on non-zero exit, optional timeout.
 
@@ -35,7 +46,6 @@ _Nothing currently active._
 
 - [ ] **report_builder.py** — Build structured plaintext or Markdown reports from a dict of sections. Handles headers, tables (from lists of dicts), and code blocks.
 - [ ] **table_formatter.py** — Format a list of dicts as an aligned plaintext table or Markdown table. Configurable column widths and alignment.
-- [ ] **logger_setup.py** — Standard logging configuration: console + rotating file handler, configurable level, consistent format across all projects.
 
 ### Date & Time
 
@@ -45,9 +55,26 @@ _Nothing currently active._
 
 ## Ideas / Backlog
 
-- Secrets loader that pulls from Azure Key Vault or environment with a unified interface
-- Pagination helper for REST API clients (handles `next` link traversal)
-- Diff reporter for comparing two dicts/DataFrames with a human-readable summary
+### Secrets & Configuration
+
+- [ ] **secrets_loader.py** — Unified interface for loading secrets from Azure Key Vault, AWS Secrets Manager, or environment variables. Supports caching and auto-refresh.
+- [ ] **encryption_utils.py** — Encrypt/decrypt sensitive strings using Fernet (symmetric encryption). Useful for storing encrypted config values.
+
+### API & HTTP Helpers
+
+- [ ] **pagination_helper.py** — REST API pagination utility: handles `next` links, cursor-based pagination, and offset/limit patterns. Yields items from all pages.
+- [ ] **http_client_wrapper.py** — Thin wrapper around requests with built-in retries, timeout handling, and automatic JSON encoding/decoding.
+
+### Data Analysis & Reporting
+
+- [ ] **diff_reporter.py** — Compare two dicts or DataFrames and generate human-readable difference reports (what changed, added, removed).
+- [ ] **stats_summarizer.py** — Quick stats on numeric data: count, min, max, mean, median, std deviation, quartiles. Returns formatted report.
+
+### Utilities & Helpers
+
+- [ ] **performance_profiler.py** — Simple decorator to measure and log function execution time with memory usage.
+- [ ] **batch_processor.py** — Batch processing utility for large datasets: chunks data into configurable batch sizes, tracks progress, handles errors gracefully.
+- [ ] **data_validator.py** — Schema validation for dicts: check required fields, types, value ranges. Returns detailed error report.
 
 ---
 
