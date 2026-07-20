@@ -1,4 +1,8 @@
-"""Logging setup utilities for consistent logging across projects."""
+"""Logging setup utilities for consistent logging across projects.
+
+Provides a single function to configure logging with console output and optional
+rotating file handler. Ensures consistency across all utilities and projects.
+"""
 
 import logging
 import sys
@@ -18,6 +22,8 @@ def setup_logging(
     """
     Set up logging with console and optional rotating file handler.
 
+    Clears existing handlers and configures fresh logger with consistent formatting.
+
     Args:
         name: Logger name.
         level: Logging level (default: INFO).
@@ -29,6 +35,7 @@ def setup_logging(
     Returns:
         Configured logger instance.
     """
+    # Use default format if none provided
     if format_string is None:
         format_string = (
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -36,19 +43,20 @@ def setup_logging(
 
     formatter = logging.Formatter(format_string)
 
+    # Get or create logger
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    # Clear any existing handlers
+    # Clear any existing handlers (prevents duplicate logs)
     logger.handlers.clear()
 
-    # Console handler
+    # Console handler for stdout
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(level)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
 
-    # File handler (if specified)
+    # Optional: Rotating file handler (auto-rotates when file exceeds max_bytes)
     if log_file:
         log_path = Path(log_file)
         log_path.parent.mkdir(parents=True, exist_ok=True)

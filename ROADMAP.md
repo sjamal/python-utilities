@@ -55,9 +55,26 @@ _Nothing currently active._
 
 ## Ideas / Backlog
 
-- Secrets loader that pulls from Azure Key Vault or environment with a unified interface
-- Pagination helper for REST API clients (handles `next` link traversal)
-- Diff reporter for comparing two dicts/DataFrames with a human-readable summary
+### Secrets & Configuration
+
+- [ ] **secrets_loader.py** — Unified interface for loading secrets from Azure Key Vault, AWS Secrets Manager, or environment variables. Supports caching and auto-refresh.
+- [ ] **encryption_utils.py** — Encrypt/decrypt sensitive strings using Fernet (symmetric encryption). Useful for storing encrypted config values.
+
+### API & HTTP Helpers
+
+- [ ] **pagination_helper.py** — REST API pagination utility: handles `next` links, cursor-based pagination, and offset/limit patterns. Yields items from all pages.
+- [ ] **http_client_wrapper.py** — Thin wrapper around requests with built-in retries, timeout handling, and automatic JSON encoding/decoding.
+
+### Data Analysis & Reporting
+
+- [ ] **diff_reporter.py** — Compare two dicts or DataFrames and generate human-readable difference reports (what changed, added, removed).
+- [ ] **stats_summarizer.py** — Quick stats on numeric data: count, min, max, mean, median, std deviation, quartiles. Returns formatted report.
+
+### Utilities & Helpers
+
+- [ ] **performance_profiler.py** — Simple decorator to measure and log function execution time with memory usage.
+- [ ] **batch_processor.py** — Batch processing utility for large datasets: chunks data into configurable batch sizes, tracks progress, handles errors gracefully.
+- [ ] **data_validator.py** — Schema validation for dicts: check required fields, types, value ranges. Returns detailed error report.
 
 ---
 

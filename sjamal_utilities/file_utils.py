@@ -1,4 +1,8 @@
-"""File and I/O utilities."""
+"""File and I/O utilities.
+
+Provides safe file operations with encoding handling, atomic writes for data integrity,
+checksum verification, and directory tree traversal.
+"""
 
 import os
 import hashlib
@@ -52,6 +56,9 @@ class FileUtils:
         """
         Atomically write content to a file (write to temp, then rename).
 
+        Prevents partial writes and ensures data integrity. Useful for config files,
+        database exports, and other data that must not be corrupted on failure.
+
         Args:
             filepath: Path to file.
             content: Content to write.
@@ -61,6 +68,7 @@ class FileUtils:
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
         # Write to temp file in same directory for atomic rename
+        # (rename is atomic on POSIX systems when on same filesystem)
         with tempfile.NamedTemporaryFile(
             mode="w",
             encoding=encoding,
@@ -70,7 +78,7 @@ class FileUtils:
             tmp.write(content)
             tmp_path = tmp.name
 
-        # Atomic rename
+        # Atomic rename: all-or-nothing operation
         Path(tmp_path).replace(filepath)
 
     @staticmethod

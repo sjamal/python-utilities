@@ -1,4 +1,8 @@
-"""Configuration loading utilities supporting YAML, JSON, and .env files."""
+"""Configuration loading utilities supporting YAML, JSON, and .env files.
+
+Supports multiple configuration formats, environment variable overrides,
+config merging, and validation of required keys.
+"""
 
 import os
 import json
@@ -7,7 +11,10 @@ from typing import Any, Dict, Optional, Union
 
 
 class ConfigLoader:
-    """Load and merge configuration from YAML, JSON, or .env files with env var overrides."""
+    """Load and merge configuration from YAML, JSON, or .env files with env var overrides.
+
+    Pattern: Load from file → override with environment variables → validate required keys.
+    """
 
     @staticmethod
     def load_yaml(filepath: Union[str, Path]) -> Dict[str, Any]:
@@ -92,7 +99,9 @@ class ConfigLoader:
     @staticmethod
     def merge(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Deep merge override dict into base dict.
+        Deep merge override dict into base dict (recursive).
+
+        Nested dicts are recursively merged; other values are replaced.
 
         Args:
             base: Base configuration.
@@ -103,9 +112,11 @@ class ConfigLoader:
         """
         result = base.copy()
         for key, value in override.items():
+            # Recursively merge nested dicts
             if key in result and isinstance(result[key], dict) and isinstance(value, dict):
                 result[key] = ConfigLoader.merge(result[key], value)
             else:
+                # Override with new value
                 result[key] = value
         return result
 

@@ -1,4 +1,8 @@
-"""Environment variable validation utilities."""
+"""Environment variable validation utilities.
+
+Useful for CI/CD pipelines, application startup checks, and configuration validation.
+Provides both strict mode (raises on missing vars) and reporting mode (returns status dict).
+"""
 
 from typing import List, Optional
 
@@ -20,19 +24,28 @@ class EnvValidator:
 
         Raises:
             ValueError: If strict=True and any required vars are missing or empty.
+
+        Example:
+            >>> result = EnvValidator.check(['API_KEY', 'DEBUG'], strict=False)
+            >>> if result['valid'] == ['API_KEY', 'DEBUG']:
+            ...     print('All set!')
         """
         import os
 
+        # Initialize result tracking
         result = {"missing": [], "empty": [], "valid": []}
 
+        # Categorize each variable
         for var in required_vars:
             if var not in os.environ:
                 result["missing"].append(var)
             elif not os.environ[var].strip():
+                # Variable exists but is empty or whitespace-only
                 result["empty"].append(var)
             else:
                 result["valid"].append(var)
 
+        # Raise in strict mode if any failures found
         if strict and (result["missing"] or result["empty"]):
             failed = result["missing"] + result["empty"]
             raise ValueError(
